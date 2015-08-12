@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             final String driveIdStr = sharedPreferences.getString(DRIVE_ID, null);
             if (driveIdStr != null) {
                 // Open app data file if already exists.
-                DriveFile sumFile = Drive.DriveApi.getFile(mGoogleApiClient,
-                        DriveId.decodeFromString(driveIdStr));
+                DriveId fileId = DriveId.decodeFromString(driveIdStr);
+                DriveFile sumFile = fileId.asDriveFile();
                 DriveApi.DriveContentsResult sumContentsResult =
                         sumFile.open(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY,
                                 null).await();
@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         protected Void doInBackground(Void... params) {
             final String driveIdStr = sharedPreferences.getString(DRIVE_ID, null);
             if (driveIdStr != null) {
-                DriveFile sumFile = Drive.DriveApi.getFile(mGoogleApiClient,
-                        DriveId.decodeFromString(driveIdStr));
+                DriveId fileId = DriveId.decodeFromString(driveIdStr);
+                DriveFile sumFile = fileId.asDriveFile();
                 // Call to delete app data file. Consider using DriveResource.trash()
                 // for user visible files.
                 com.google.android.gms.common.api.Status deleteStatus =
@@ -295,8 +295,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // If there already exists app data, use it to load past sums.
                 Log.d(TAG, result.getMetadataBuffer().getCount() + "");
                 if (result.getMetadataBuffer().getCount() > 0) {
-                    DriveFile sumFile = Drive.DriveApi.getFile(mGoogleApiClient,
-                            result.getMetadataBuffer().get(0).getDriveId());
+                    DriveId fileId = result.getMetadataBuffer().get(0).getDriveId();
+                    DriveFile sumFile = fileId.asDriveFile();
 
                     // Once the open is complete, retrieve DriveContents.
                     DriveApi.DriveContentsResult sumContentsResult = sumFile
