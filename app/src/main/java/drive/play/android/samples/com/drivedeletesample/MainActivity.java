@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
     if (requestCode == REQUEST_CODE_SIGN_IN) {
       if (resultCode == RESULT_OK) {
         Log.i(TAG, "Signed in successfully");
-        Task<GoogleSignInAccount> task = GoogleSignInClient.getGoogleSignInAccountFromIntent(data);
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         if (task.isSuccessful()) {
           onSignInSuccess(task.getResult());
         } else {
